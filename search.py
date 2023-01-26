@@ -100,7 +100,8 @@ def depthFirstSearch(problem: SearchProblem):
     while (not stack.isEmpty()):
         pathToCur = stack.pop();
         curNode = stackOfNode.pop();
-        
+        print(pathToCur)
+        print(curNode)
         if (problem.isGoalState(curNode)):
             return(pathToCur);
         if (not visited.__contains__(curNode)):
@@ -110,7 +111,7 @@ def depthFirstSearch(problem: SearchProblem):
             if (not visited.__contains__(each[0])):
                 pathToCur.append(each[1])
                 stack.push(pathToCur);
-                pathToCur = pathSoFar;
+                pathToCur = pathSoFar.copy();
                 stackOfNode.push(each[0]);
     return res;
 
