@@ -132,8 +132,7 @@ def breadthFirstSearch(problem: SearchProblem):
         curNode = list[1];
         if (problem.isGoalState(curNode)):
             return(pathToCur);
-        if (not visited.__contains__(curNode)):
-            visited.append(curNode);
+        visited.append(curNode);
         pathSoFar = pathToCur.copy();
         for each in problem.getSuccessors(curNode):
             if (not visited.__contains__(each[0])):
@@ -144,6 +143,9 @@ def breadthFirstSearch(problem: SearchProblem):
     return res;
     util.raiseNotDefined()
 
+def getPriority(l1):
+    return l1[2].getCostOfActions(l1[0]);
+
 def uniformCostSearch(problem: SearchProblem):
     """Search the node of least total cost first."""
     cur = problem.getStartState();
@@ -151,22 +153,21 @@ def uniformCostSearch(problem: SearchProblem):
     pathToCur = [];
     res = [];
     visited = [];
-    pq = util.PriorityQueue();
-    pq.push([pathToCur, curNode]);
+    pq = util.PriorityQueueWithFunction(getPriority);
+    pq.push([pathToCur, curNode, problem]);
     while (not pq.isEmpty()):
         list = pq.pop();
         pathToCur = list[0];
         curNode = list[1];
         if (problem.isGoalState(curNode)):
             return(pathToCur);
-        if (not visited.__contains__(curNode)):
-            visited.append(curNode);
+        visited.append(curNode);
         pathSoFar = pathToCur.copy();
         for each in problem.getSuccessors(curNode):
             if (not visited.__contains__(each[0])):
                 visited.append(each[0])
                 pathToCur.append(each[1])
-                pq.push([pathToCur,each[0]]);
+                pq.push([pathToCur,each[0],problem]);
                 pathToCur = pathSoFar.copy();
     return res;
     util.raiseNotDefined()
