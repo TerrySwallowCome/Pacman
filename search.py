@@ -148,8 +148,7 @@ def getPriority(l1):
 
 def uniformCostSearch(problem: SearchProblem):
     """Search the node of least total cost first."""
-    cur = problem.getStartState();
-    curNode = cur;
+    curNode = problem.getStartState();
     pathToCur = [];
     res = [];
     visited = [];
@@ -164,10 +163,11 @@ def uniformCostSearch(problem: SearchProblem):
         visited.append(curNode);
         pathSoFar = pathToCur.copy();
         for each in problem.getSuccessors(curNode):
-            if (not visited.__contains__(each[0])):
+            if (not visited.__contains__(each[0]) or problem.isGoalState(each[0])):
                 visited.append(each[0])
                 pathToCur.append(each[1])
                 pq.push([pathToCur,each[0],problem]);
+                print([pathToCur,each[0],problem])
                 pathToCur = pathSoFar.copy();
     return res;
     util.raiseNotDefined()
