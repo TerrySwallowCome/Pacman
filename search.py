@@ -167,7 +167,6 @@ def uniformCostSearch(problem: SearchProblem):
                 visited.append(each[0])
                 pathToCur.append(each[1])
                 pq.push([pathToCur,each[0],problem]);
-                print([pathToCur,each[0],problem])
                 pathToCur = pathSoFar.copy();
     return res;
     util.raiseNotDefined()
