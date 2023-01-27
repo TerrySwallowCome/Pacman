@@ -304,7 +304,10 @@ class CornersProblem(search.SearchProblem):
         Returns whether this search state is a goal state of the problem.
         """
         "*** YOUR CODE HERE ***"
-        for ()
+        for i in range(1,5):
+            if (state[i] == False):
+                return False;
+        return True;
         util.raiseNotDefined()
 
     def getSuccessors(self, state: Any):
@@ -328,14 +331,24 @@ class CornersProblem(search.SearchProblem):
             #   hitsWall = self.walls[nextx][nexty]
 
             "*** YOUR CODE HERE ***"
-            x,y = state
+            top, right = self.walls.height-2, self.walls.width-2
+            self.corners = ((1,1), (1,top), (right, 1), (right, top))
+            x,y = state[0]
             dx, dy = Actions.directionToVector(action)
             nextx, nexty = int(x + dx), int(y + dy)
             if not self.walls[nextx][nexty]:
-                nextState = (nextx, nexty)
-                cost = self.costFn(nextState)
-                successors.append( ( nextState, action, cost) )
-
+                nextPosition = (nextx, nexty)
+                if (nextPosition == (1,1)):
+                    nextState = [nextPosition, True, state[2], state[3], state[4]];
+                elif (nextPosition == (1,top)):
+                    nextState = [nextPosition, state[1], True, state[3], state[4]];
+                elif (nextPosition == (right,1)):
+                    nextState = [nextPosition, state[1], state[2], True, state[4]];
+                elif (nextPosition == (top, right)):
+                    nextState = [nextPosition, state[1], state[2], state[3], True];
+                else :
+                    nextState = [nextPosition, state[1], state[2], state[3], state[4]];
+                successors.append( ( nextState, action, 1) )
         self._expanded += 1 # DO NOT CHANGE
         return successors
 
