@@ -209,7 +209,7 @@ def aStarSearch(problem: SearchProblem, heuristic=nullHeuristic):
                     curNode.priority)], each[2]+
                     heuristic(each[0], problem)+curNode.priority)
                 pathToCur = pathSoFar.copy()
-    return list()
+    return []
     util.raiseNotDefined()
 
 
