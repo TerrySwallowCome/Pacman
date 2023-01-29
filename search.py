@@ -198,19 +198,19 @@ def aStarSearch(problem: SearchProblem, heuristic=nullHeuristic):
         curNode = list[1]
         if (problem.isGoalState(curNode.state)):
             return(pathToCur)
-        if (not visited.__contains__(curNode.state)):
+        if ((curNode.state) not in visited):
             visited.append(curNode.state)
-        pathSoFar = pathToCur.copy()
-        for each in problem.getSuccessors(curNode.state):
-            if (not visited.__contains__(each[0]) or problem.isGoalState(each[0])):
-                visited.append(each[0])
-                pathToCur.append(each[1])
-                queue.push([pathToCur, Node(each[0],each[2]+
-                    curNode.priority)], each[2]+
-                    heuristic(each[0], problem)+curNode.priority)
-                pathToCur = pathSoFar.copy()
+            pathSoFar = pathToCur.copy()
+            for each in problem.getSuccessors(curNode.state):
+                if ((each[0] not in visited) or problem.isGoalState(each[0])):
+                    pathToCur.append(each[1])
+                    queue.push([pathToCur, Node(each[0],each[2]+
+                        curNode.priority)], each[2]+
+                        heuristic(each[0], problem)+curNode.priority)
+                    pathToCur = pathSoFar.copy()
     return []
     util.raiseNotDefined()
+
 
 
 # Abbreviations

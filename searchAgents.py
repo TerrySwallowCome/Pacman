@@ -386,12 +386,19 @@ def cornersHeuristic(state: Any, problem: CornersProblem):
 
     "*** YOUR CODE HERE ***"
     h_value = 0
+    list = []
+    unvisited = []
     for i in range(1,5):
         if (state[i] is not True):
             dist = abs(state[0][0]-corners[i-1][0])
             +abs(state[0][1]-corners[i-1][1])
-            if (h_value < dist):
-                h_value += dist
+            list.append(dist)
+            unvisited.append(corners[i-1])
+    h_value=max(list,default=0)
+    # if(len(unvisited)>1):
+    #     corner_dist = abs(unvisited[0][0]-unvisited[1][0])
+    #     +abs(unvisited[0][1]-unvisited[1][1])
+    #     h_value+=corner_dist
     return h_value # Default to trivial solution
 
 class AStarCornersAgent(SearchAgent):
