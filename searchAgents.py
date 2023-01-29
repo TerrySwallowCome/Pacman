@@ -477,6 +477,8 @@ def foodHeuristic(state: Tuple[Tuple, List[List]], problem: FoodSearchProblem):
     """
     position, foodGrid = state
     "*** YOUR CODE HERE ***"
+    foodCoord = foodGrid.asList();
+    remain = foodCoord.length();
     return 0
 
 class ClosestDotSearchAgent(SearchAgent):
