@@ -388,13 +388,19 @@ def cornersHeuristic(state: Any, problem: CornersProblem):
     h_value = 0
     list = []
     unvisited = []
+    sum = 0
     for i in range(1,5):
         if (state[i] is not True):
             dist = abs(state[0][0]-corners[i-1][0])
             +abs(state[0][1]-corners[i-1][1])
             list.append(dist)
             unvisited.append(corners[i-1])
-    h_value=max(list,default=0)
+    if(len(list)>0):
+        for i in range(0, len(list)):
+            sum += list[i]
+        h_value=sum/(len(list))
+    else:
+        return 0
     # if(len(unvisited)>1):
     #     corner_dist = abs(unvisited[0][0]-unvisited[1][0])
     #     +abs(unvisited[0][1]-unvisited[1][1])
@@ -493,9 +499,7 @@ def foodHeuristic(state: Tuple[Tuple, List[List]], problem: FoodSearchProblem):
     """
     position, foodGrid = state
     "*** YOUR CODE HERE ***"
-    foodCoord = foodGrid.asList();
-    remain = foodCoord.length();
-    return 0
+    
 
 class ClosestDotSearchAgent(SearchAgent):
     "Search for all food using a sequence of searches"
