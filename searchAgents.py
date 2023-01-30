@@ -572,9 +572,12 @@ class AnyFoodSearchProblem(PositionSearchProblem):
         complete the problem definition.
         """
         x,y = state
-        foodCoord = self.food.asList()
-        for i in range(0, len(foodCoord))
         "*** YOUR CODE HERE ***"
+        foodList = self.food.asList()
+        for i in range(0, len(foodList)):
+            if (x == foodList[i][0] and y == foodList[i][1]):
+                return True
+        return False
         util.raiseNotDefined()
 
 def mazeDistance(point1: Tuple[int, int], point2: Tuple[int, int], gameState: pacman.GameState) -> int:
