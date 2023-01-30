@@ -499,7 +499,13 @@ def foodHeuristic(state: Tuple[Tuple, List[List]], problem: FoodSearchProblem):
     """
     position, foodGrid = state
     "*** YOUR CODE HERE ***"
-    
+    foodList = foodGrid.asList()
+    list = []
+    for i in range(0, len(foodList)):
+        dist = mazeDistance(position,foodList[i],problem.startingGameState)
+        list.append(dist)
+    h_value = max(list,default=0)
+    return h_value
 
 class ClosestDotSearchAgent(SearchAgent):
     "Search for all food using a sequence of searches"
