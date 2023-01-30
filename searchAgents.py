@@ -536,6 +536,8 @@ class ClosestDotSearchAgent(SearchAgent):
         problem = AnyFoodSearchProblem(gameState)
 
         "*** YOUR CODE HERE ***"
+        path = SearchAgent(problem)
+        return path
         util.raiseNotDefined()
 
 class AnyFoodSearchProblem(PositionSearchProblem):
@@ -570,7 +572,8 @@ class AnyFoodSearchProblem(PositionSearchProblem):
         complete the problem definition.
         """
         x,y = state
-
+        foodCoord = self.food.asList()
+        for i in range(0, len(foodCoord))
         "*** YOUR CODE HERE ***"
         util.raiseNotDefined()
 
