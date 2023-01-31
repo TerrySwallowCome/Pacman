@@ -297,7 +297,7 @@ class CornersProblem(search.SearchProblem):
         """
         "*** YOUR CODE HERE ***"
         start_state = list()
-        return (self.startingPosition, False, False, False, False)
+        return (self.startingPosition, [False, False, False, False])
         util.raiseNotDefined()
 
     def isGoalState(self, state: Any):
@@ -305,10 +305,10 @@ class CornersProblem(search.SearchProblem):
         Returns whether this search state is a goal state of the problem.
         """
         "*** YOUR CODE HERE ***"
-        for i in range(1,5):
-            if (state[i] == False):
-                return False;
-        return True;
+        for i in range(4):
+            if (state[1][i] == False):
+                return False
+        return True
         util.raiseNotDefined()
 
     def getSuccessors(self, state: Any):
@@ -332,24 +332,16 @@ class CornersProblem(search.SearchProblem):
             #   hitsWall = self.walls[nextx][nexty]
 
             "*** YOUR CODE HERE ***"
-            top, right = self.walls.height-2, self.walls.width-2
-            self.corners = ((1,1), (1,top), (right, 1), (right, top))
             x,y = state[0]
             dx, dy = Actions.directionToVector(action)
             top, right = self.walls.height-2, self.walls.width-2
             nextx, nexty = int(x + dx), int(y + dy)
             if not self.walls[nextx][nexty]:
                 nextPosition = (nextx, nexty)
-                if (nextPosition == (1,1)):
-                    nextState = [nextPosition, True, state[2], state[3], state[4]];
-                elif (nextPosition == (1,top)):
-                    nextState = [nextPosition, state[1], True, state[3], state[4]];
-                elif (nextPosition == (right,1)):
-                    nextState = [nextPosition, state[1], state[2], True, state[4]];
-                elif (nextPosition == (top, right)):
-                    nextState = [nextPosition, state[1], state[2], state[3], True];
-                else :
-                    nextState = [nextPosition, state[1], state[2], state[3], state[4]];
+                nextState = (nextPosition, [state[1][0], state[1][1],state[1][2],state[1][3]])
+                for i, corner in enumerate(self.corners):
+                    if (nextPosition == corner):
+                        nextState[1][i] = True
                 successors.append( ( nextState, action, 1) )
         self._expanded += 1 # DO NOT CHANGE
         return successors
@@ -367,6 +359,10 @@ class CornersProblem(search.SearchProblem):
             if self.walls[x][y]: return 999999
         return len(actions)
 
+def manhattenHeuristics(position1, position2):
+    h_value = abs(position1[0] - position2[0]) 
+    + abs(position1[1]-position2[1])
+    return h_value
 
 def cornersHeuristic(state: Any, problem: CornersProblem):
     """
@@ -388,18 +384,20 @@ def cornersHeuristic(state: Any, problem: CornersProblem):
     h_value = 0
     list = []
     unvisited = []
+    corner_list = []
     for i in range(1,5):
-        if (state[i] is not True):
-            dist = abs(state[0][0]-corners[i-1][0])
-            +abs(state[0][1]-corners[i-1][1])
+        if (state[1][i-1] is not True):
+            dist = manhattenHeuristics(state[0],corners[i-1])
             list.append(dist)
             unvisited.append(corners[i-1])
-    h_value=max(list,default=0)
-    # if(len(unvisited)>1):
-    #     corner_dist = abs(unvisited[0][0]-unvisited[1][0])
-    #     +abs(unvisited[0][1]-unvisited[1][1])
-    #     h_value+=corner_dist
-    return h_value # Default to trivial solution
+    h_value=min(list,default=0)
+    if(len(unvisited)>=2):
+        for i in range(0, len(unvisited)):
+            for j in range(0, len(unvisited)):
+                corner_dist = manhattenHeuristics(unvisited[i], unvisited[j])
+                corner_list.append(corner_dist)
+        h_value+=max(corner_list, default=0)
+    return h_value# Default to trivial solution
 
 class AStarCornersAgent(SearchAgent):
     "A SearchAgent for FoodSearchProblem using A* and your foodHeuristic"
